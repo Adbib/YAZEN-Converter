@@ -91,9 +91,7 @@ const getFormat = (res)=>{
         setdata(formData.get('file'))
         axios.post(`http://127.0.0.1:5000/upload/images/${Myimage.Format}`,formData,{
             onUploadProgress: (ProgressEvent) => {
-                let progress = Math.round( ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
                 setProgress(ProgressEvent.loaded / ProgressEvent.total * 100);
-                // console.log(ProgressEvent.loaded / ProgressEvent.total * 100) 
             }})
             .then(res =>getFormat(res) )
     }
@@ -121,17 +119,17 @@ const getFormat = (res)=>{
         </Breadcrumb>
         <Context>
         
-            <Container  >
+            <Container className='container-fliud' >
             
             <Row className="mt-3 center text-center d-block" >
                 { Myimage ?  <img className='img-thumbnail rounded' src={Myimage.image}  width={400} height={400} alt='img to dispay' /> : ""}
                 
             </Row>
 
-            <Row className="row mt-3">
+            <Row className="mt-3">
                 <Col md={1}></Col>
                 <Suspense fallback={<h1>Loading profile...</h1>} >
-                    <Col  md={10} className="col-md-8" style={{height: "100px"}}>
+                    <Col  md={10} >
                         <Form inline className="mt-3" >
                             <Form.File id="formcheck-api-custom" className="col-md-7 mr-2 mt-3" custom>
                                 <Form.File.Input  onChange={(e)=> FileHandler(e)} isInvalid={Myimage.valid ? false : true}  />

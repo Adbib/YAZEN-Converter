@@ -1,17 +1,15 @@
-import React from 'react'
-import {Navbar, Nav} from "react-bootstrap"
-import logo from "../Assets/logo.png"
-// import Imager from "../Pages/Imager"
+import React,{useContext} from 'react'
+import {Navbar, Nav,NavDropdown} from "react-bootstrap"
 import {Link} from "react-router-dom"
-
-// import Image from 'react-bootstrap/Image'
+import { ThemeContext } from '../Pages/Context/ContextConfig'
+import logo from '../Assets/logo.png'
 export default function NavBar() {
-  // const conf = useContext(ThemeContext)
-  // console.log(conf)
+  const Config = useContext(ThemeContext)
     return ( 
         <>
           <Navbar bg="dark" variant="dark" fixed="top">
-              <Navbar.Brand href="#home">
+          <Link to='/'>
+              <Navbar.Brand >
                 <img
                   alt=""
                   src={logo}
@@ -19,39 +17,42 @@ export default function NavBar() {
                   height="40"
                   className="d-inline-block align-center rounded-circle mr-1 ml-5"
                 />{'   '}
-                YAZEN Converter
+                {Config.Header.title}
               </Navbar.Brand>
+          </Link>
                 <Nav as="ul" className="ml-auto mr-20 navbar-nav col-md-6 offset-md-3">
                     <Nav.Item className="nav-item" as="li">
                         <Link className="nav-link" to="/" exact >Home</Link>
                     </Nav.Item>
                     <Nav.Item  className="nav-item" as="li">
-                        <Link className="nav-link" to="/Imager">Image Converter</Link>
+                        <Link className="nav-link" to="/Imager">Imager</Link>
                     </Nav.Item>
                     <Nav.Item className="nav-item" as="li">
-                        <Link className="nav-link" to="/Video">Video Downloader</Link>
+                        <Link className="nav-link" to="/Video">Youtube Downloader</Link>
                     </Nav.Item>
-                    <Nav.Item className="nav-item" as="li">
-                        <Link className="nav-link" to="/Converter">Converter</Link>
-                    </Nav.Item>
+
+                    <NavDropdown title="Converter" id="basic-nav-dropdown">
+                          <NavDropdown.Item>
+                              <Link className="text-muted" to="/Image-Converter">Video Converter</Link>
+                          </NavDropdown.Item>
+
+                          <NavDropdown.Item>
+                              <Link className="text-muted" to="/Video">Image Converter</Link>
+                          </NavDropdown.Item>
+
+                          <NavDropdown.Divider />
+                          
+                          <NavDropdown.Item>
+                              <Link className="text-muted" to="/image-to-pdf">Images 2 PDF</Link>
+                          </NavDropdown.Item>
+                    </NavDropdown>
+
                     <Nav.Item className="nav-item" as="li">
                         <Link className="nav-link" to="/Imager">Contact</Link>
                     </Nav.Item>
                     
 
-                        {/* <Nav.Link  href="#home">Home</Nav.Link>
-                        <Nav.Link to='googlr.vom'>Image Converter</Nav.Link>
-                        <Nav.Link href="#home">Image 2 PDF</Nav.Link>
-                        <Nav.Link href="#link">Video Downloader</Nav.Link>
-                        <Nav.Link href="#home">Coverter</Nav.Link>
-                        <Nav.Link href="#link">Contact</Nav.Link> */}
-                        {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                          <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                          <NavDropdown.Divider />
-                          <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown> */}
+                        
                </Nav>
             </Navbar>
 

@@ -1,32 +1,12 @@
-import {React, useState, useContext} from 'react'
+import {React, useState} from 'react'
 import axios from "axios"
 import {Container, Row, Col, Form, FormControl, Button, Breadcrumb} from "react-bootstrap"
 import Context from './Context/Context'
 import { Link } from 'react-router-dom'
-import {ThemeContext} from './Context/ContextConfig'
-
-// export  function Connect({component:Component}) {
-//     const conf = useContext(ThemeContext)
-//     // console.log(props)
-//     return(
-//         <Component conf={conf} />
-//     )
-// }
-
-
-// export  function FileUploader() {
-//     return (
-//         <div>
-//             <h1>file up</h1>
-//             <input type="file" />
-//         </div>
-//     )
-// }
 
 
 
-
- function Youtube({props}) {
+ function Youtube() {
 
  
     const [url, seturl] = useState({yurl:"", params:"", valid:null, msg:""})
@@ -69,7 +49,6 @@ import {ThemeContext} from './Context/ContextConfig'
 
     //     }
     
-    console.log(props)
     return (
         <>
         <Context>
@@ -95,15 +74,15 @@ import {ThemeContext} from './Context/ContextConfig'
                     <Col  md={8}>
                     {!url.valid ? <h6 style={{color:"red",textAlign: "start"}}>{url.msg}</h6> : ""}
                     <Form  inline>
-                            <FormControl type="text" value={url.yurl} placeholder="Youtube Video URL" className="mr-sm-2 col-lg-6 col-sm-12" onChange={(e)=>seturl({...url, yurl:e.target.value})} />
-                            <Form.Control onChange={(e)=>seturl({...url, params:e.target.value})} className="mr-3" as="select" custom>
+                            <FormControl type="text" value={url.yurl} placeholder="Youtube Video URL" className="mr-sm-2 col-lg-6 col-sm-12 mt-2" onChange={(e)=>seturl({...url, yurl:e.target.value})} />
+                            <Form.Control onChange={(e)=>seturl({...url, params:e.target.value})} className="mr-3 mt-2" as="select" custom>
                                 <option>Quality</option>
                                 <option>MP4 360P</option>
                                 <option>MP4 720P</option>
                                 <option>MP4 1080P</option>
                                 <option>MP3</option>
                             </Form.Control>
-                            <Button  onClick={getopt} variant="danger">Donwload</Button>
+                            <Button  onClick={getopt} className="mt-2"  variant="danger">Donwload</Button>
                     </Form>
                     </Col>
                     <Col md={2}></Col>
@@ -115,5 +94,3 @@ import {ThemeContext} from './Context/ContextConfig'
     )
 }
 export default Youtube;
-// console.log(Youtube) 
-// console.log(Connect)

@@ -23,6 +23,13 @@ function Converter( ) {
         <p>Day & Night</p>
       </div>
     </Link>
+    <Link to="/Image-to-pdf" exact>
+      <div className="service-box col-md-3" style={{height: "250px !important"}}>
+        <h2>Image 2 PDF</h2>
+        <span> <i className="fa fa-file-pdf-o"  > </i> </span>
+        <p>Get Img 2 PDF </p>
+      </div>
+    </Link>
     </div>
   </div>
 </section>

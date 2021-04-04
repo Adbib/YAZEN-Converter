@@ -8,7 +8,10 @@ export default function Context({children}) {
         <>
               <ContextConfig>
         <NavBar  />
+        <main>
+
             {children}
+        </main>
         <Footer/>
         </ContextConfig>
         </>

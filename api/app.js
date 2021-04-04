@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var testAPIRouter = require("./routes/test");
 var imgConverter = require('./routes/imgConverter')
-
+ var img2pdf = require('./routes/img2pdf')
 
 app.all('*', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://localhost:3000");
@@ -40,6 +40,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/download", testAPIRouter);
 app.use("/upload", imgConverter);
+app.use("/img2pdf", img2pdf);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

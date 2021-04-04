@@ -16,6 +16,7 @@
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
     "http-errors": "~1.6.3",
+    "images-to-pdf": "^1.0.3",
     "jade": "~1.11.0",
     "jimp": "^0.16.1",
     "morgan": "~1.9.1",
