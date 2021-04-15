@@ -3,7 +3,7 @@ export const config = {
     BackendLink : "http://localhost:5000",
 
     Header : {
-        title : "YAZEN Converter1",
+        title : "YAZEN Converter",
         description : "Web App for Download,Convert, Edit Videos & Images",
     },
 
@@ -17,20 +17,20 @@ export const config = {
             website : "",
         },
         categories  : {
-            title : 'Categories',
-            link1 : 'C',
-            link2 : 'UI Design',
-            link3 : 'PHP',
-            link4 : 'Java',
-            link5 : 'Android',
-            link6 : 'Templates',
+            link1 : {title : 'Converter', link:'/about-us'},
+            link2 : {title : 'Videos', link:'/about-us'},
+            link3 : {title : 'Downloaders', link:'/about-us'},
+            link4 : {title : 'Image Editors', link:'/about-us'},
         },
         quickLinks :{
-            link1 : 'About Us',
-            link2 : 'Contact Us',
-            link3 : 'Contribute',
-            link4 : 'Privacy Policy',
-            link5 : 'Sitemap'
+            link1 : {title : 'About Us', link:'/about-us'},
+            link2 : {title : 'Contact Us', link:'/contact-us'},
+            link3 : {title : 'Contribute', link:'contribute'},
+            link4 : {title : 'Privacy Policy', link:'/privacy policy'},
+            link5 : {title : 'Sitemap', link:'/sitemap'},
+            link6 : {title : 'Contact Us', link:'/contact-us'},
+            link7 : {title : 'Contribute', link:'contribute'},
+            link8 : {title : 'Privacy Policy', link:'/privacy policy'},
         },
     },
 

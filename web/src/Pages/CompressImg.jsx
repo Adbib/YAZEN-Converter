@@ -8,7 +8,6 @@ export default function CompressImg() {
     const [imgResult, setimgResult] = useState(null)
     const [imgConfig, setimgConfig] = useState({Loimage:null,file:null,width:null, height:null, format:'JPEG',quality:100,rotation:50})
    const [imgReader, setimgReader] = useState(null)
-   const [test, settest] = useState(null)
 
     const onFileResize = e => {
        var file = imgConfig.file
@@ -78,7 +77,7 @@ export default function CompressImg() {
             
             <Row className="mt-3 center text-center d-block" >
                 
-                                   {imgResult ? <img  className='result'  src={imgResult}  /> : <img  className='reder img-thumbnail rounded' src={imgReader} onLoad={e=>onImgLoad(e)}  /> }
+                                   {imgResult ? <img  className='result'  src={imgResult} alt="this just an img " /> : <img  className='reder img-thumbnail rounded' src={imgReader} onLoad={e=>onImgLoad(e)} alt='this just another img' /> }
             </Row>
 
             <Row className="mt-3">

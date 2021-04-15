@@ -6,18 +6,23 @@ import {Link} from 'react-router-dom'
 import {useState} from 'react'
 import { PDFReader } from 'react-read-pdf';
 
-export default function Img2pdf() {
+export default function Img2pdf({Config}) {
     const [link, setlink] = useState(null)
     const [Progress, setProgress] = useState(0)
-    const [Myimage, setMyimage] = useState({Loimage:null, valid:true})
+    const [Myimage, setMyimage] = useState({image:null,Loimage:null, valid:true})
     const handlePDF= (e)=>{
-        const file = e.target.files[0]
-        if (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/webp"){
-            setMyimage({...Myimage, Loimage:e.target.value, valid:true})
-            const formData = new FormData()
+        const MyRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i
+        if (MyRegex.test(e.target.value)){
+            const file = e.target.files[0]
+            setMyimage({...Myimage,image:file, Loimage:e.target.value, valid:true})
+        }else{setMyimage({...Myimage, valid:false});}
+    }
+    const onClickHandler = ()=>{
+        const formData = new FormData()
+        const file = Myimage.image
             formData.append('file', file)
 
-            axios.post("http://127.0.0.1:5000/img2pdf/",formData,{
+            axios.post(`${Config.BackendLink}/img2pdf`,formData,{
                 onUploadProgress: (ProgressEvent) => {
                     
                     setProgress(ProgressEvent.loaded / ProgressEvent.total * 100);
@@ -28,9 +33,8 @@ export default function Img2pdf() {
             .catch(err => {
                 console.error(err); 
             })
-        }else{setMyimage({...Myimage, valid:false});console.log('no')}
-    }
 
+    } 
     return (
         <>
         <Breadcrumb style={{marginTop:"5%"}}>
@@ -64,7 +68,6 @@ export default function Img2pdf() {
                     <Col  md={10} >
                         <Form inline className="mt-3" >
                             <Form.File id="formcheck-api-custom" className="col-md-7 mr-2 mt-3" custom>
-                                 {/* <Form.Control.Feedback className='mb-2' type="isInvalid"  >Oops! Try an Image</Form.Control.Feedback>  */}
                                 <Form.File.Input onChange={(e)=> handlePDF(e)}  isInvalid={Myimage.valid ? false: true} />
                                 <Form.File.Label  data-browse="Browse">
                                 {Myimage.Loimage}
@@ -72,7 +75,7 @@ export default function Img2pdf() {
                             </Form.File>
                             
 
-                                <Button   variant="info" className="mr-2 mt-3" >Convert</Button>
+                                <Button onClick={onClickHandler}  variant="info" className="mr-2 mt-3" >Convert</Button>
                                 
                                  {link ? <Button href={link} download  className="mr-2 mt-3" variant="success">Download</Button> : ''} 
                              

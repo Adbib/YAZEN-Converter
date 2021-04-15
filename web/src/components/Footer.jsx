@@ -1,7 +1,17 @@
 import React, {useContext} from 'react'
 import { ThemeContext } from '../Pages/Context/ContextConfig'
+import {Link} from "react-router-dom"
 export default function Footer() {
   const Config = useContext(ThemeContext)
+  // console.log(Config.Footer.categories)
+// for (let i = 0; i < Config.Footer.categories.length; i++) { 
+//   console.log(Config.Footer.categories[i]);
+// }
+// var mapjoblist = new Map(Object.entries(Config.Footer.categories));
+// Object.entries(Config.Footer.categories).forEach(
+//   ([key, value]) => console.log(key, value)
+// );
+
     return (
         <footer className="site-footer bd-footer text-muted container-fliud">
       <div className="container">
@@ -14,23 +24,34 @@ export default function Footer() {
           <div className="col-xs-6 col-md-3">
             <h6>Categories</h6>
             <ul className="footer-links">
-              <li><a href="https://YADbib.com">C</a></li>
-              <li><a href="https://YADbib.com">UI Design</a></li>
-              <li><a href="https://YADbib.com">PHP</a></li>
-              <li><a href="https://YADbib.com">Java</a></li>
-              <li><a href="https://YADbib.com">Android</a></li>
-              <li><a href="https://YADbib.com">Templates</a></li>
+            {Object.keys(Config.Footer.quickLinks).map(function(keyName, keyIndex) {
+    		return (
+          <Link key={keyName} to={Config.Footer.quickLinks[keyName].link} >
+              <li>{Config.Footer.quickLinks[keyName].title}</li>
+            </Link>
+					
+    		)
+	    	})}
             </ul>
           </div>
 
           <div className="col-xs-6 col-md-3">
             <h6>Quick Links</h6>
             <ul className="footer-links">
-              <li><a href="/about/">About Us</a></li>
-              <li><a href="/contact/">Contact Us</a></li>
-              <li><a href="/contribute-at-YAZEN/">Contribute</a></li>
-              <li><a href="/privacy-policy/">Privacy Policy</a></li>
-              <li><a href="/sitemap/">Sitemap</a></li>
+
+            
+              {Object.keys(Config.Footer.categories).map(function(keyName, keyIndex) {
+    		return (
+          <Link key={keyName} to={Config.Footer.categories[keyName].link} >
+              <li>{Config.Footer.categories[keyName].title}</li>
+            </Link>
+					
+    		)
+		})}
+              
+            
+            
+            
             </ul>
           </div>
         </div>

@@ -37,7 +37,7 @@ export default function NavBar() {
                           </NavDropdown.Item>
 
                           <NavDropdown.Item>
-                              <Link className="text-muted" to="/Video">Image Converter</Link>
+                              <Link className="text-muted" to="/Image-Converter">Image Converter</Link>
                           </NavDropdown.Item>
 
                           <NavDropdown.Divider />

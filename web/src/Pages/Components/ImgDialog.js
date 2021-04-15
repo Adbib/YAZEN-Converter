@@ -45,14 +45,13 @@ const  respo =(e)=>{
          Localimg:Localimg,
         Format:e.target.value
       }
-      console.log(e)
       axios.post("http://127.0.0.1:5000/download/uploads",params)
-      // .then(res => {
-          //     console.log(res)
-          // })
-          // .catch(err => {
-              //     console.error(err); 
-              // })
+      .then(res => {
+              console.log(res)
+          })
+          .catch(err => {
+                  console.error(err); 
+              })
             }
             
             respo(e)

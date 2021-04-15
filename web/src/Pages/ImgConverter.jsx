@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react'
+import React from 'react'
 import axios from 'axios' 
 import Context from './Context/Context'
 import {Container, Row, Col, Form, Button, Breadcrumb, ProgressBar} from "react-bootstrap"
@@ -7,8 +7,9 @@ import {useState} from 'react'
 // import {LoaderProvider, useLoading, BallTriangle} from "@agney/react-loading"
  
 
-export default function ImgConverter() {
-    const [Myimage, setMyimage] = useState({image:null, valid:true, Localimg:null, Format:"JPG"})
+export default function ImgConverter({Config}) {
+    console.log(Config)
+    const [Myimage, setMyimage] = useState({image:null, imgValid:true,forValid:true, Localimg:null, Format:null, msg:null})
     const [data, setdata] = useState("")
     const [Progress, setProgress] = useState(null)
     const [NewLink, setNewLink] = useState(null)
@@ -17,15 +18,13 @@ export default function ImgConverter() {
         
         setProgress(0)
         setNewLink(null)
-        // console.log( Myimage) 
         const file = e.target.files[0]
         
         if (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/webp"){
             const reader = new FileReader()
             reader.addEventListener('load', () => {
-                setMyimage({...Myimage, image:reader.result, valid:true, Localimg:e.target.value})
+                setMyimage({...Myimage, image:reader.result, imgValid:true, Localimg:e.target.value})
                 setdata(file)
-                // console.log(data)
             }, false)
 
             if (file) {
@@ -33,8 +32,8 @@ export default function ImgConverter() {
             }
             
   
-        // }else{setMyimage({...Myimage,valid:false})}
-    }
+        }
+        else{setMyimage({...Myimage,valid:false})}
 }
 
 
@@ -85,19 +84,27 @@ const getFormat = (res)=>{
 
 
     const uploadData = ()=>{
-        setProgress(0)
-        const formData = new FormData();
-        formData.append('file', data);;
-        setdata(formData.get('file'))
-        axios.post(`http://127.0.0.1:5000/upload/images/${Myimage.Format}`,formData,{
-            onUploadProgress: (ProgressEvent) => {
-                setProgress(ProgressEvent.loaded / ProgressEvent.total * 100);
-            }})
-            .then(res =>getFormat(res) )
-    }
-
-    const onCli = ()=>{
-        console.log(NewLink)
+        if (Myimage.image || Myimage.Format) {
+            if(Myimage.image){
+                setMyimage({...Myimage, forValid:false,imgValid:true})
+            }
+            if(Myimage.Format){
+                setMyimage({...Myimage, forValid:true,imgValid:false})
+            }
+            if (Myimage.image && Myimage.Format){
+                setProgress(0)
+                const formData = new FormData();
+                formData.append('file', data);;
+                setdata(formData.get('file'))
+                axios.post(`${Config.BackendLink}/upload/images/${Myimage.Format}`,formData,{
+                    onUploadProgress: (ProgressEvent) => {
+                        setProgress(ProgressEvent.loaded / ProgressEvent.total * 100);
+                    }})
+                    .then(res =>getFormat(res) )}
+        }else{
+            console.log("fff")
+            // setMyimage({...Myimage, forValid:false,imgValid:false})
+        }
     }
 
     return (
@@ -128,18 +135,17 @@ const getFormat = (res)=>{
 
             <Row className="mt-3">
                 <Col md={1}></Col>
-                <Suspense fallback={<h1>Loading profile...</h1>} >
                     <Col  md={10} >
                         <Form inline className="mt-3" >
                             <Form.File id="formcheck-api-custom" className="col-md-7 mr-2 mt-3" custom>
-                                <Form.File.Input  onChange={(e)=> FileHandler(e)} isInvalid={Myimage.valid ? false : true}  />
+                                <Form.File.Input  onChange={(e)=> FileHandler(e)} isInvalid={Myimage.imgValid ? false : true}  />
                                 <Form.File.Label  data-browse="Browse">
                                 {Myimage.Localimg}
                                 </Form.File.Label>
-                                { Myimage.valid ? "" : <Form.Control.Feedback type="isInvalid"  >Oops! Try an Image</Form.Control.Feedback> }
+                                { Myimage.imgValid ? "" : <Form.Control.Feedback className='mb-5 text-danger' type="isInvalid"  >Oops! Try an Image</Form.Control.Feedback> }
                             </Form.File>
                             
-                         <Form.Control onChange={HandleFormatChange}  className="col-md-2 mr-2 sm-mt-3 mt-3" as="select" custom>
+                         <Form.Control isInvalid={Myimage.forValid ? false: true} onChange={HandleFormatChange}  className="col-md-2 mr-2 sm-mt-3 mt-3" as="select" custom>
                                     <option>Format</option>
                                     <option>WEBP</option>
                                     <option>PNG</option>
@@ -149,27 +155,16 @@ const getFormat = (res)=>{
 
                                 <Button onClick={uploadData}   variant="info" className="mr-2 mr-2 mt-3" >Convert</Button>
                                 
-                                {NewLink ? <Button  href={NewLink} onClick={onCli} download  className="mr-2 mt-3" variant="success">Download</Button> : ""}
-                                 {/* <html>
-                                
-                                    <form> 
-                                        <input type="file" onChange={getFormat} name="sampleFile" />
-                                         <input type='submit' value='Upload!' /> 
-                                    </form>     
-                                
-                                </html>  */}
+                                {NewLink ? <a  href={NewLink}  download  className="mr-2 mt-3 btn btn-success" variant="success">Download</a> : ""}
+
                         </Form>
-                        {/* <h6 className="text-center mt-3" >Upload end !! Please Select Format and Download</h6> */}
-                        <ProgressBar className="mt-3" now={Progress} />
+                        <ProgressBar className="mt-4" now={Progress} />
 
                     </Col>
-                    </Suspense>
                 <Col md={1}></Col>
             </Row>
             <Row className="mt-3 center text-center d-block" >
-                {/* { Myimage ?  <img className='img-thumbnail rounded' src={Myimage.image}  width={400} height={400} alt='img to dispay' /> : ""} */}
-                
-            {/* <ProgressBar className="col-md-8" now={60} /> */}
+
             </Row>
             </Container>
 </Context>

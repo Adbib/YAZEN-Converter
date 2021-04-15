@@ -112,53 +112,65 @@ router.post('/?URL=:link', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     const id = req.path.replace('/','');
     const yurl = `https://www.youtube.com/watch?v=${id}?quality=${req.query.quality}`;
-async function VidInfo(id){
-      let info = await ytdl.getInfo(id);
-      let format = ytdl.chooseFormat(info.formats, { quality: '134' });
+async function getVideo(id){
+  let info = await ytdl.getInfo(id);
+  // let format = ytdl.chooseFormat(info.formats, { quality: '134' });
+switch (req.query.quality) {
+  case "MP4 360P":
+    console.log("MP4 360P");
+    // res.set("Content-Disposition", `attachment; filename=${info.videoDetails.title}.mp4`);
+    // console.log('Content-Disposition', `attachment; filename=${info.videoDetails.title}.mp4`)
+    const vidName = info.videoDetails.title 
+    // console.log(viName.toString())
+    res.header('Content-Disposition', `attachment; filename=video.mp4`);
+    ytdl(yurl, {
 
-      switch (req.query.quality) {
-        case "MP4 360P":
-          console.log("MP4 360P");
-          res.header('Content-Disposition', `attachment; filename=${info.videoDetails.title}`);
-          ytdl(yurl, {
+      quality:"18"
+    }).pipe(res)
+    
+    break;
 
-            quality:"18"
-          }).pipe(res)
-          
-          break;
+  case "MP4 720P":
+      console.log("MP4 720P");
+      res.header('Content-Disposition', `attachment; filename=${info.videoDetails.title}.mp4`);
+      ytdl(yurl, {
+        format: 'mp4',
+        quality:"22"
+      }).pipe(res)
+      break;
 
-        case "MP4 720P":
-            console.log("MP4 720P");
-            res.header('Content-Disposition', `attachment; filename=${info.videoDetails.title}`);
-            ytdl(yurl, {
-              format: 'mp4',
-              quality:"22"
-            }).pipe(res)
-            break;
+  case "MP4 1080P":
+      console.log("MP4 1080P")
+      res.header('Content-Disposition', `attachment; filename=${info.videoDetails.title}.mp4`);
+      ytdl(yurl, {
+        format: 'mp4',
+        quality:"299"
+      }).pipe(res)
+      
+      break;
 
-        case "MP4 1080P":
-            console.log("MP4 1080P")
-            res.header('Content-Disposition', `attachment; filename=${info.videoDetails.title}.mp4`);
-            ytdl(yurl, {
-              format: 'mp4',
-              quality:"299"
-            }).pipe(res)
-            
-            break;
+  case "MP3":
+        console.log("MP3");
+        res.header('Content-Disposition', `attachment; filename=${info.videoDetails.title}.mp3`);
+        ytdl(yurl, {
+          format: 'mp3',
+          quality:"140"
+        }).pipe(res)
+        break;
 
-        case "MP3":
-              console.log("MP3");
-              res.header('Content-Disposition', `attachment; filename=${info.videoDetails.title}.mp3`);
-              ytdl(yurl, {
-                format: 'mp3',
-                quality:"140"
-              }).pipe(res)
-              break;
+  default:
+    console.log("no format selected")
+    break;
+}
+}
+function VidInfo(){
+  try {
+    getVideo(id)
+  } catch (error) {
+    console.log("error")
+  } 
 
-        default:
-          console.log("no format selected")
-          break;
-      }
+      
 
     }
 

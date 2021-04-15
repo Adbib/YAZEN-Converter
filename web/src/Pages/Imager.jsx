@@ -5,24 +5,18 @@ import Context from './Context/Context'
 import Cropper from 'react-easy-crop'
 import Modaldata from './Components/ImgDialog'
 import {Link} from 'react-router-dom'
-// import {ThemeContext} from "../Pages/Context/ContextConfig";
- // import Breadcrumbs from './Components/breadcrumbs'
-// import getCroppedImg from './Components/cropImage'
 import getCroppedImg from './Components/cropImage'
 export default function Imager( props) { 
 
     const [Valid, setValid] = useState(true);
-    // let val = Valid ? "isValid" : "isInvalid"
     const [Myimage, setMyimage] = useState({image:null, crop:{ x: 0, y: 0 }, Localimg:null, rotation:0, zoom:1,croppedAreaPixels:null, show:false })
     
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
     const [croppedImage, setCroppedImage] = useState("")
     const onInputChange = (e) => {
-        // convert image file to base64 string
         const file = e.target.files[0]
         if (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/webp"){
         const reader = new FileReader()
-            console.log('image')
             setValid(true)
 
             reader.addEventListener('load', () => {
@@ -35,7 +29,7 @@ export default function Imager( props) {
       
              }else{
                 setValid(false)
-                console.log('no image')}
+                }
             
     }
 
@@ -97,7 +91,7 @@ export default function Imager( props) {
                     <Col  md={6} >
                     <Form.Group controlId="formBasicRange">
                             <Form.Label>Rotate</Form.Label>
-                            <Form.Control  min={0} and max={360} value={Myimage.rotation} onChange={(e)=>setMyimage({...Myimage, rotation:e.target.value})} type="range"  custom/>
+                            <Form.Control  min={0}  max={360} value={Myimage.rotation} onChange={(e)=>setMyimage({...Myimage, rotation:e.target.value})} type="range"  custom/>
                     </Form.Group>
                     </Col>
                     <Col md={3}></Col>
